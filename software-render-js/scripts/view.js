@@ -83,12 +83,12 @@ export class View extends Bitmap
 
     renderScene()
     {
+
+        // cube 随机位置
         const r = new Random(123);
-
         const s = 30.0;
-
         this.renderFlag = 0;
-        for (let i = 0; i < 100; i++)
+        for (let i = 0; i < 1; i++)
         {
             if (i % 2 == 0) this.setTexture(Resources.textures.pepe, Resources.textures.brick_normal);
             else this.setTexture(Resources.textures.dulri, Resources.textures.stone2_normal);
@@ -115,22 +115,27 @@ export class View extends Bitmap
 
         this.drawSkyBox(this.time / 100.0);
 
+        // 画球体
         this.renderFlag = 0;
         this.transform = new Matrix4().translate(2, 1, -5);
-        // this.transform = new Matrix4().translate(2, 1, -5).rotate(time, 0, time);
+        // 自转
+        // this.transform = new Matrix4().translate(2, 1, -5).rotate(this.time, 0, this.time);
+        // 选取贴图
         this.setTexture(Resources.textures.pepe, undefined, 100);
+        // 选取model
         this.drawModel(Resources.models.sphere2);
 
-        // this.transform = new Matrix4().translate(-2, 1, -5);
         this.transform = new Matrix4().translate(-2, 1, -5);
         // this.transform = this.transform.rotate(0, time, 0);
         this.transform = this.transform.scale(1);
-        // this.setTexture(Resources.textures.brickwall, Resources.textures.brickwall_normal);
-        this.setTexture(Resources.textures.stone2, Resources.textures.stone2_normal, 10.0);
+        this.setTexture(Resources.textures.brickwall, Resources.textures.brickwall_normal);
+        // this.setTexture(Resources.textures.stone2, Resources.textures.stone2_normal, 10.0);
         this.drawModel(Resources.models.cube);
 
+        // 设置model放置位置
         this.transform = new Matrix4().translate(-2, 0, -10);
-        // this.transform = this.transform.rotate(0, time, 0);
+        // 设置旋转
+        this.transform = this.transform.rotate(0, this.time, 0);
         this.transform = this.transform.scale(0.5);
         // this.setTexture(Resources.textures.brickwall, Resources.textures.brickwall_normal);
         this.setTexture(Resources.textures.white);
@@ -141,7 +146,7 @@ export class View extends Bitmap
         this.transform = this.transform.scale(1);
         // this.setTexture(Resources.textures.brickwall, Resources.textures.brickwall_normal);
         this.setTexture(Resources.textures.brick, Resources.textures.brick_normal, 10.0);
-        this.drawModel(Resources.models.cube);
+        // this.drawModel(Resources.models.cube);
 
         // this.transform = new Matrix4().translate(-1, -1, -2);
         // this.transform = this.transform.scale(2);
