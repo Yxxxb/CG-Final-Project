@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Software Renderer</title>
+
+    <link rel="stylesheet" href="styles.css">
+    <script src="scripts/main.js" type="module"></script>
+</head>
+
+<body>
+    <div class="head">
+        <p class="title">3D Software Renderer</p>
+        <p id="frame_counter">0fps</p>
+    </div>
+
+    <hr>
+    <div class="body">
+        <!-- module 绑定main.js 让其呈现在这部分 -->
+        <canvas id="canvas" width="800px" height="600px"></canvas>
+        <div class="resbox">
+            <div class="opt" id="res1"></div>
+            <div class="opt" id="res2"></div>
+            <div class="opt" id="res4"></div>
+            <div class="opt" id="res5"></div>
+            <div class="opt" id="res8"></div>
+            <div class="opt" id="res10"></div>
+            <div class="opt" id="res20"></div>
+        </div>
+        <div class="resbox">
+            <div class="opt" id="psp1"></div>
+            <div class="opt" id="psp2"></div>
+            <div class="opt" id="psp3"></div>
+            <div class="opt" id="psp4"></div>
+            <div class="opt" id="psp5"></div>
+        </div>
+    </div>
+    <div class="foot">
+        <h3>{w, a, s, d, space, c} to Move</h3>
+        <h3>{click and drag} to Rotate around</h3>
+        <h3>{Esc} to Pause</h3>
+    </div>
+
+</body>
+
+</html>
