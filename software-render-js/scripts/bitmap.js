@@ -4,6 +4,7 @@ export class Bitmap
     {
         this.width = width;
         this.height = height;
+        // 数组 长*宽 （猜测rgb）
         this.pixels = new Uint32Array(width * height);
     }
 

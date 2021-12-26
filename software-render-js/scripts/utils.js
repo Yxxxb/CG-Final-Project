@@ -4,6 +4,7 @@ import { Bitmap } from "./bitmap.js";
 import { Matrix4 } from "./mat4.js";
 import { Constants } from "./constants.js";
 
+// 图片转rgb数组
 export function convertImageDataToBitmap(imageData, width, height)
 {
     const res = new Bitmap(width, height);
@@ -16,6 +17,7 @@ export function convertImageDataToBitmap(imageData, width, height)
             const g = imageData.data[(x + y * width) * 4 + 1];
             const b = imageData.data[(x + y * width) * 4 + 2];
 
+            // rgb数组存储
             res.pixels[x + y * width] = (r << 16) | (g << 8) | b;
         }
     }

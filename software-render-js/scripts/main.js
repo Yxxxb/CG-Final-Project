@@ -36,6 +36,7 @@ for (const key in Resources.models)
                 for (const line of lines)
                 {
                     const tokens = line.split(" ");
+                    // console.log(tokens)
                     switch (tokens[0])
                     {
                         case "v":
@@ -77,8 +78,12 @@ for (const key in Resources.models)
 
                 Constants.loadedResources++;
 
+                // 写进了Model后暂存到resource中 view中会利用drawModel进行模型绘制
                 Resources.models[key] = new Model(positions, texCoords, normals, indices);
+
             }
         }
     }
 }
+
+// console.log(Resources.models)

@@ -9,24 +9,31 @@ export class Game
 {
     constructor()
     {
+        // 和frameCounterElement绑定
         this.times = [];
         this.fps;
 
         this.started = false;
 
+        // 整个canvas
         this.cvs;
         this.tmpCvs;
+        // Loading 字体
         this.gfx;
         this.tmpGfx;
 
+        // 绑定像素调节按钮
         this.resBtns = [];
+        // 绑定背景调节按钮
         this.pspBtns = [];
 
+        // frame_counter 加载计时
         this.frameCounterElement;
 
         this.pause = false
         this.time = 0;
 
+        // View class
         this.view;
 
         this.keys = {};
@@ -61,8 +68,10 @@ export class Game
         this.resBtns.push(document.getElementById("res10"));
         this.resBtns.push(document.getElementById("res20"));
 
+        // 右侧像素按钮调节函数
         function reloadView(index)
         {
+            console.log(index)
             if (index == Constants.SCALES[index]) return;
 
             const newWidth = Constants.WIDTH * Constants.SCALE / Constants.SCALES[index];
@@ -81,6 +90,7 @@ export class Game
             this.resBtns[index].style.backgroundColor = "black";
         }
 
+        // 绑定点击事件
         for (let i = 0; i < this.resBtns.length; i++)
         {
             const btn = this.resBtns[i];
@@ -89,6 +99,8 @@ export class Game
 
         this.resBtns[Constants.SCALE_INDEX].style.backgroundColor = "black";
 
+
+        // 右侧背景调节
         this.pspBtns.push(document.getElementById("psp1"));
         this.pspBtns.push(document.getElementById("psp2"));
         this.pspBtns.push(document.getElementById("psp3"));
@@ -101,6 +113,7 @@ export class Game
             this.pspBtns[index].style.backgroundColor = this.postprocessEnabled[index] ? "black" : "white";
         }
 
+        // 绑定点击事件
         for (let i = 0; i < this.pspBtns.length; i++)
         {
             const btn = this.pspBtns[i];
@@ -108,6 +121,8 @@ export class Game
             if (this.postprocessEnabled[i]) btn.style.backgroundColor = "black";
         }
 
+
+        // 读resourse内的textures
         for (const key in Resources.textures)
         {
             if (Object.hasOwnProperty.call(Resources.textures, key))
@@ -125,12 +140,16 @@ export class Game
                     this.tmpCvs.setAttribute("height", imageHeight + "px");
                     // Loading textures.
 
+                    // 将图片贴上去 不加此步骤的话只有黑色的模型
                     this.tmpGfx.drawImage(image, 0, 0, imageWidth, imageHeight);
 
+                    // 对天空盒进行处理
                     if (key == "skybox")
                     {
+                        // 取边长 整数
                         const size = Util.int(imageWidth / 4);
 
+                        // 分割天空盒图片
                         let top = this.tmpGfx.getImageData(size, 0, size, size);
                         let bottom = this.tmpGfx.getImageData(size, size * 2, size, size);
                         let front = this.tmpGfx.getImageData(size, size, size, size);
@@ -138,16 +157,19 @@ export class Game
                         let right = this.tmpGfx.getImageData(size * 2, size, size, size);
                         let left = this.tmpGfx.getImageData(0, size, size, size);
 
+                        // 图片转rgb 存储在resources里面
                         Resources.textures["skybox_top"] = Util.convertImageDataToBitmap(top, size, size);
                         Resources.textures["skybox_bottom"] = Util.convertImageDataToBitmap(bottom, size, size);
                         Resources.textures["skybox_front"] = Util.convertImageDataToBitmap(front, size, size);
                         Resources.textures["skybox_back"] = Util.convertImageDataToBitmap(back, size, size);
                         Resources.textures["skybox_right"] = Util.convertImageDataToBitmap(right, size, size);
                         Resources.textures["skybox_left"] = Util.convertImageDataToBitmap(left, size, size);
+
                         Constants.loadedResources++;
                         return;
                     }
 
+                    // 同样 转rgb存储
                     image = this.tmpGfx.getImageData(0, 0, imageWidth, imageHeight);
                     image = Util.convertImageDataToBitmap(image, imageWidth, imageHeight);
 
@@ -157,6 +179,8 @@ export class Game
             }
         }
 
+
+        // 绑定鼠标键盘点击事件
         window.addEventListener("mousedown", (e) =>
         {
             if (e.button != 0) return;
