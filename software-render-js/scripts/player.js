@@ -1,6 +1,7 @@
 import { Vector3 } from "./vec3.js";
 import { Matrix4 } from "./mat4.js";
 
+// 摄像机类
 export class Player
 {
     constructor(keys, mouse)

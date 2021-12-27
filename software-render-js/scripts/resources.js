@@ -18,12 +18,17 @@ let textures =
 
 let models =
 {
-    "cube": "https://raw.githubusercontent.com/Sopiro/js_bitmap_renderer/master/models/cube.obj",
-    "sphere": "https://raw.githubusercontent.com/Sopiro/js_bitmap_renderer/master/models/sphere.obj",
-    "sphere2": "https://raw.githubusercontent.com/Sopiro/js_bitmap_renderer/master/models/sphere2.obj",
-    "monkey": "https://raw.githubusercontent.com/Sopiro/js_bitmap_renderer/master/models/monkey2.obj",
-    "man": "https://raw.githubusercontent.com/Sopiro/js_bitmap_renderer/master/models/man.obj",
-    // "man": "models/monkey2.obj", 直接输入模型地址就可以导入 默认为根目录路径
+    // "cube": "https://raw.githubusercontent.com/Sopiro/js_bitmap_renderer/master/models/cube.obj",
+    // "sphere": "https://raw.githubusercontent.com/Sopiro/js_bitmap_renderer/master/models/sphere.obj",
+    // "sphere2": "https://raw.githubusercontent.com/Sopiro/js_bitmap_renderer/master/models/sphere2.obj",
+    // "monkey": "https://raw.githubusercontent.com/Sopiro/js_bitmap_renderer/master/models/monkey2.obj",
+    // "man": "https://raw.githubusercontent.com/Sopiro/js_bitmap_renderer/master/models/man.obj",
+    "cube": "../image&obj repo/obj/cube.obj",
+    "sphere": "../image&obj repo/obj/sphere.obj",
+    "sphere2": "../image&obj repo/obj/sphere2.obj",
+    "monkey": "../image&obj repo/obj/monkey2.obj",
+    // "man": "models/man.obj",
+    "man": "../image&obj repo/obj/ninja.obj", // 直接输入模型地址就可以导入 默认为根目录路径
 };
 
 export { models, textures};

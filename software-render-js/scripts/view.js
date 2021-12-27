@@ -136,7 +136,8 @@ export class View extends Bitmap
         this.transform = new Matrix4().translate(-2, 0, -10);
         // 设置旋转
         this.transform = this.transform.rotate(0, this.time, 0);
-        this.transform = this.transform.scale(0.5);
+        // 放大缩小
+        this.transform = this.transform.scale(0.1);
         // this.setTexture(Resources.textures.brickwall, Resources.textures.brickwall_normal);
         this.setTexture(Resources.textures.white);
         this.drawModel(Resources.models.man);
@@ -405,9 +406,12 @@ export class View extends Bitmap
         this.drawTriangle(f.v0, f.v1, f.v2);
     }
 
+    
+    // // 位置 颜色 纹理坐标
+    // this.drawTriangle(new Vertex(p001, 0xffffff, t01), new Vertex(p011, 0xffffff, t00), new Vertex(p111, 0xffffff, t10));
     drawTriangle(v0, v1, v2)
     {
-        // Render CCW
+        // Render CCW 如果不是逆时针的话要进行变换
         if ((this.renderFlag & this.RENDER_CCW) == this.RENDER_CCW)
         {
             const tmp = v0;
@@ -417,16 +421,19 @@ export class View extends Bitmap
 
         if (v0.normal == undefined || v1.normal == undefined || v2.normal == undefined)
         {
+            // normal是v1v2所在面法向量 也是我们要画的面的法向量
             const normal = v2.pos.sub(v0.pos).cross(v1.pos.sub(v0.pos)).normalized();
             v0.normal = normal;
             v1.normal = normal;
             v2.normal = normal;
         }
 
+        // 变换
         v0 = this.modelTransform(v0);
         v1 = this.modelTransform(v1);
         v2 = this.modelTransform(v2);
 
+        // 求中心坐标 加和除3
         const center = v0.pos.add(v1.pos.add(v2.pos)).div(3.0);
         // Render Face normal
         if ((this.renderFlag & this.RENDER_FACE_NORMAL) == this.RENDER_FACE_NORMAL)
@@ -468,6 +475,7 @@ export class View extends Bitmap
         if (v0.pos.z < this.zClipNear && v1.pos.z < this.zClipNear && v2.pos.z < this.zClipNear) return;
         else if (v0.pos.z > this.zClipNear && v1.pos.z > this.zClipNear && v2.pos.z > this.zClipNear)
         {
+            // 这一步实质上画了triangle
             this.drawTriangleVS(v0, v1, v2);
             return;
         }
@@ -681,10 +689,13 @@ export class View extends Bitmap
         this.renderFlag = this.SET_Z_9999 | this.EFFECT_NO_LIGHT;
 
         let size = new Vector3(1000, 1000, 1000);
+        // pos是由(500, 500, -500)指向player视角的方向向量
         let pos = this.player.pos.sub(new Vector3(size.x / 2.0, size.y / 2.0, -size.z / 2.0));
         // console.log(pos)
+        // console.log(rotation) // 0.00开始 1s +0.01
         this.transform = new Matrix4().rotate(0, rotation, 0);
 
+        // 每个顶点相较于摄像机的坐标
         const p000 = new Vector3(pos.x, pos.y, pos.z);
         const p100 = new Vector3(pos.x + size.x, pos.y, pos.z);
         const p110 = new Vector3(pos.x + size.x, pos.y + size.y, pos.z);
@@ -701,6 +712,8 @@ export class View extends Bitmap
         const t01 = new Vector2(0, 0);
 
         this.setTexture(Resources.textures.skybox_front);
+        // 位置 颜色 纹理坐标
+        // 这里要注意三角形坐标的连接顺序 CCW 注意逆时针
         this.drawTriangle(new Vertex(p001, 0xffffff, t01), new Vertex(p011, 0xffffff, t00), new Vertex(p111, 0xffffff, t10));
         this.drawTriangle(new Vertex(p001, 0xffffff, t01), new Vertex(p111, 0xffffff, t10), new Vertex(p101, 0xffffff, t11));
 
@@ -747,6 +760,7 @@ export class View extends Bitmap
 
     modelTransform(v)
     {
+        // 乘变换矩阵得到新的pos
         const newPos = this.transform.mulVector(v.pos, 1);
         let newNor = undefined;
         if (v.normal != undefined) newNor = this.transform.mulVector(v.normal, 0).normalized();
@@ -758,6 +772,7 @@ export class View extends Bitmap
         return new Vertex(newPos, v.color, v.texCoord, newNor, newTan, newBiTan);
     }
 
+    // 绘制 直接呈现在屏幕上的函数 供画点、线、三角形调用
     renderPixel(p, c)
     {
         if (!this.checkOutOfScreen(p) && p.z < this.zBuffer[p.x + (Constants.HEIGHT - 1 - p.y) * Constants.WIDTH])
@@ -769,6 +784,7 @@ export class View extends Bitmap
         }
     }
 
+    // 检测是否在屏幕内部
     checkOutOfScreen(p)
     {
         return p.x < 0 || p.x >= this.width || p.y < 0 || p.y >= this.height;

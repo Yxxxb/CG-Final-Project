@@ -16,6 +16,7 @@ export class Vector3
         this.z /= len;
     }
 
+    // 向量长度标准化
     normalized()
     {
         return this.div(this.getLength());
@@ -31,6 +32,7 @@ export class Vector3
         return this.x * v.x + this.y * v.y + this.z * v.z;
     }
 
+    // 求两向量所在面法线
     cross(v)
     {
         return new Vector3(this.y * v.z - this.z * v.y, this.z * v.x - this.x * v.z, this.x * v.y - this.y * v.x);

@@ -2,6 +2,7 @@ import { Vector3 } from "./vec3.js";
 
 export class Matrix4
 {
+    // 缩放、偏移矩阵 默认变换矩阵为单位对角阵
     constructor()
     {
         this.m00 = 1; this.m01 = 0; this.m02 = 0; this.m03 = 0;
@@ -21,6 +22,7 @@ export class Matrix4
         return res;
     }
 
+    // 变换乘积函数 这个函数是用现有的transform乘以另一个变换 起到变换的叠加作用 而不是乘实际的向量坐标
     mulMatrix(right)
     {
         let res = new Matrix4();
@@ -48,6 +50,7 @@ export class Matrix4
         return res;
     }
 
+    //变换 方向坐标向量乘以transform变换矩阵
     mulVector(right, w)
     {
         let res = new Vector3(0, 0, 0);
@@ -63,6 +66,7 @@ export class Matrix4
 
     scale(x, y, z)
     {
+        // 如果未定义yz两轴的缩放量的话那么默认为和x轴保持同比例缩放
         if (y == undefined && z == undefined)
         {
             y = x;
@@ -88,6 +92,7 @@ export class Matrix4
 
         let res = new Matrix4();
 
+        // 旋转变换矩阵
         res.m00 = cosY * cosZ; res.m01 = -cosY * sinZ; res.m02 = sinY; res.m03 = 0;
         res.m10 = sinX * sinY * cosZ + cosX * sinZ; res.m11 = -sinX * sinY * sinZ + cosX * cosZ; res.m12 = -sinX * cosY; res.m13 = 0;
         res.m20 = -cosX * sinY * cosZ + sinX * sinZ; res.m21 = cosX * sinY * sinZ + sinX * cosZ; res.m22 = cosX * cosY; res.m23 = 0;
@@ -100,6 +105,7 @@ export class Matrix4
     {
         let res = new Matrix4();
 
+        // 位移矩阵 将第四列改成坐标即可
         res.m03 = x;
         res.m13 = y;
         res.m23 = z;
