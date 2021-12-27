@@ -682,6 +682,7 @@ export class View extends Bitmap
 
         let size = new Vector3(1000, 1000, 1000);
         let pos = this.player.pos.sub(new Vector3(size.x / 2.0, size.y / 2.0, -size.z / 2.0));
+        // console.log(pos)
         this.transform = new Matrix4().rotate(0, rotation, 0);
 
         const p000 = new Vector3(pos.x, pos.y, pos.z);

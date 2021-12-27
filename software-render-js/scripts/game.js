@@ -228,11 +228,14 @@ export class Game
             this.mouse.currY = e.screenY;
         });
 
+        // fps指示
         this.frameCounterElement = document.getElementById("frame_counter");
 
         Constants.WIDTH = Constants.WIDTH / Constants.SCALE;
         Constants.HEIGHT = Constants.HEIGHT / Constants.SCALE;
 
+        // 创建player和View对象
+        // player内可修改水平移动速度、视角移动速度等等
         this.player = new Player(this.keys, this.mouse);
         this.view = new View(Constants.WIDTH, Constants.HEIGHT, this.player);
 
@@ -260,11 +263,12 @@ export class Game
 
     run()
     {
+        // 精确到ms的时间戳
         const now = performance.now();
+        // 清空times
         while (this.times.length > 0 && this.times[0] <= now - 1000) this.times.shift();
 
         const delta = (now - this.times[this.times.length - 1]) / 1000.0;
-        // console.log("frame time:", delta * 1000.0);
 
         this.times.push(now);
         this.fps = this.times.length;
@@ -273,6 +277,7 @@ export class Game
         if (!this.started && Constants.loadedResources == Constants.resourceReady)
         {
             this.started = true;
+            // canvas大小
             this.cvs.setAttribute("width", Constants.WIDTH * Constants.SCALE + "px");
             this.cvs.setAttribute("height", Constants.HEIGHT * Constants.SCALE + "px");
             this.tmpCvs.setAttribute("width", Constants.WIDTH * Constants.SCALE + "px");
@@ -282,12 +287,15 @@ export class Game
         if (!this.started)
         {
             this.gfx.clearRect(0, 0, this.cvs.width, this.cvs.height);
+            // 加载模型的进度 上文每次load一个obj或texture都会loadedResources++
             this.gfx.fillText("Loading..." + Util.int(Constants.loadedResources / Constants.resourceReady * 100) + "%", 10, 60);
         }
 
         if (this.started && !this.pause)
         {
+            // update view & player
             this.update(delta);
+            // view
             this.render();
             this.time += delta;
         }
@@ -296,6 +304,7 @@ export class Game
             this.gfx.fillText("PAUSE", 4, 40);
         }
 
+        // 必须加 每刷新界面的时候重新执行this
         requestAnimationFrame(this.run.bind(this));
     }
 
@@ -313,6 +322,7 @@ export class Game
     render()
     {
         this.view.clear(0x808080);
+        // 此步骤开始模型与贴图的放置与渲染
         this.view.renderView();
         this.view.postProcess(this.postprocessEnabled);
 

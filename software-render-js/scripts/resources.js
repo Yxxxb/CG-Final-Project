@@ -23,6 +23,7 @@ let models =
     "sphere2": "https://raw.githubusercontent.com/Sopiro/js_bitmap_renderer/master/models/sphere2.obj",
     "monkey": "https://raw.githubusercontent.com/Sopiro/js_bitmap_renderer/master/models/monkey2.obj",
     "man": "https://raw.githubusercontent.com/Sopiro/js_bitmap_renderer/master/models/man.obj",
+    // "man": "models/monkey2.obj", 直接输入模型地址就可以导入 默认为根目录路径
 };
 
 export { models, textures};
