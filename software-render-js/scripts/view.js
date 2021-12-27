@@ -435,15 +435,19 @@ export class View extends Bitmap
 
         // 求中心坐标 加和除3
         const center = v0.pos.add(v1.pos.add(v2.pos)).div(3.0);
+
+        // 这三个目前没用到
         // Render Face normal
         if ((this.renderFlag & this.RENDER_FACE_NORMAL) == this.RENDER_FACE_NORMAL)
         {
+            console.log("Face")
             this.drawLine(new Vertex(center, 0xffffff), new Vertex(center.add(v0.normal.add(v1.normal).add(v2.normal).normalized().mul(0.2)), 0xff00ff));
         }
 
         // Render Vertex normal
         if ((this.renderFlag & this.RENDER_VERTEX_NORMAL) == this.RENDER_VERTEX_NORMAL)
         {
+            console.log("Vertex")
             const pos = v0.pos;
             this.drawLine(new Vertex(pos, 0xffffff), new Vertex(pos.add(v0.normal.mul(0.2)), 0x0000ff));
         }
@@ -451,16 +455,19 @@ export class View extends Bitmap
         // Render Tangent space
         if ((this.renderFlag & this.RENDER_TANGENT_SPACE) == this.RENDER_TANGENT_SPACE && v0.tangent != undefined)
         {
+            console.log("tangent")
             const pos = v0.pos;
             this.drawLine(new Vertex(pos, 0xffffff), new Vertex(pos.add(v0.tangent.mul(0.2)), 0xff0000));
             this.drawLine(new Vertex(pos, 0xffffff), new Vertex(pos.add(v0.biTangent.mul(0.2)), 0x00ff00));
             this.drawLine(new Vertex(pos, 0xffffff), new Vertex(pos.add(v0.normal.mul(0.2)), 0x0000ff));
         }
 
+        // 摄像机移动时候视角的变换
         v0 = this.playerTransform(v0);
         v1 = this.playerTransform(v1);
         v2 = this.playerTransform(v2);
 
+        // z轴做负变换 ？
         v0 = this.projectionTransform(v0);
         v1 = this.projectionTransform(v1);
         v2 = this.projectionTransform(v2);
@@ -472,6 +479,7 @@ export class View extends Bitmap
             // throw "asd";
         }
 
+        // z 大于0.2才画？
         if (v0.pos.z < this.zClipNear && v1.pos.z < this.zClipNear && v2.pos.z < this.zClipNear) return;
         else if (v0.pos.z > this.zClipNear && v1.pos.z > this.zClipNear && v2.pos.z > this.zClipNear)
         {
@@ -480,6 +488,7 @@ export class View extends Bitmap
             return;
         }
 
+        // 只要在视角内就进行显示
         const vps = [v0, v1, v2, v0];
         let drawVertices = [];
 
@@ -529,6 +538,7 @@ export class View extends Bitmap
         const z1 = vp1.pos.z;
         const z2 = vp2.pos.z;
 
+        // 将三个点的坐标转换成实际屏幕像素闪光 除以z相当于一个投影矩阵 对应opengl 加减width/2是因为坐标系统中间为0 然而画图的时候左侧为0起始
         const p0 = new Vector2(vp0.pos.x / vp0.pos.z * Constants.FOV + Constants.WIDTH / 2.0 - 0.5, vp0.pos.y / vp0.pos.z * Constants.FOV + Constants.HEIGHT / 2.0 - 0.5);
         const p1 = new Vector2(vp1.pos.x / vp1.pos.z * Constants.FOV + Constants.WIDTH / 2.0 - 0.5, vp1.pos.y / vp1.pos.z * Constants.FOV + Constants.HEIGHT / 2.0 - 0.5);
         const p2 = new Vector2(vp2.pos.x / vp2.pos.z * Constants.FOV + Constants.WIDTH / 2.0 - 0.5, vp2.pos.y / vp2.pos.z * Constants.FOV + Constants.HEIGHT / 2.0 - 0.5);
@@ -543,6 +553,7 @@ export class View extends Bitmap
         if (maxX > Constants.WIDTH) maxX = Constants.WIDTH;
         if (maxY > Constants.HEIGHT) maxY = Constants.HEIGHT;
 
+        // 二维方向向量
         const v10 = new Vector2(p1.x - p0.x, p1.y - p0.y);
         const v21 = new Vector2(p2.x - p1.x, p2.y - p1.y);
         const v02 = new Vector2(p0.x - p2.x, p0.y - p2.y);
@@ -559,6 +570,7 @@ export class View extends Bitmap
         if ((this.renderFlag & this.SET_Z_9999) == this.SET_Z_9999) depthMin = 9999;
         if ((this.renderFlag & this.EFFECT_NO_LIGHT) == this.EFFECT_NO_LIGHT) calcLight = false;
 
+        // 开始画图（二维）
         let a = false;
         for (let y = minY; y < maxY; y++)
         {
@@ -566,13 +578,16 @@ export class View extends Bitmap
             {
                 let p = new Vector2(x, y);
 
+                // 二维叉积 判断是否同向
                 let w0 = v21.cross(p.sub(p1));
                 let w1 = v02.cross(p.sub(p2));
                 let w2 = v10.cross(p.sub(p0));
 
                 // Render Clock wise
+                // 这个if的意思是 只有当p这个点 在你想要渲染的三角形内部 才会进行画点（上课讲的 判断是否在内部） 重点讲***
                 if (w0 >= 0 && w1 >= 0 && w2 >= 0)
                 {
+                    // 这部分要干两件事 求color z的意义？
                     w0 /= area;
                     w1 /= area;
                     w2 /= area;
@@ -594,6 +609,7 @@ export class View extends Bitmap
                         pixelNormal = sampledNormal.normalized();
                     }
 
+                    // setTexture的时候会把texture里面的内容赋值给difuseMap
                     let color = this.sample(this.difuseMap, uv.x, uv.y);
 
                     if (calcLight)
@@ -630,6 +646,7 @@ export class View extends Bitmap
         if (ty < 0) ty = 0;
         if (ty >= texture.height) ty = texture.height - 1;
 
+        // texture里面的pixels就是那个bitmap
         return texture.pixels[tx + ty * texture.width];
     }
 
@@ -706,6 +723,7 @@ export class View extends Bitmap
         const p111 = new Vector3(pos.x + size.x, pos.y + size.y, pos.z - size.z);
         const p011 = new Vector3(pos.x, pos.y + size.y, pos.z - size.z);
 
+        // 纹理坐标 在这里做了转化左下角为（0, 0）
         const t00 = new Vector2(0, 1);
         const t10 = new Vector2(1, 1);
         const t11 = new Vector2(1, 0);
@@ -775,6 +793,8 @@ export class View extends Bitmap
     // 绘制 直接呈现在屏幕上的函数 供画点、线、三角形调用
     renderPixel(p, c)
     {
+        // zBuffer是 Float32Array(width * height) 屏幕像素点矩阵
+        // 所以这个函数的操作就是把矩阵内那个点的位置更新成颜色
         if (!this.checkOutOfScreen(p) && p.z < this.zBuffer[p.x + (Constants.HEIGHT - 1 - p.y) * Constants.WIDTH])
         {
             if (typeof c != "number") c = Util.convertVector2ColorHex(c);

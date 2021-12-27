@@ -39,7 +39,8 @@ export class Game
         this.keys = {};
         this.mouse = { down: false, lastX: 0.0, lastY: 0.0, currX: 0.0, currY: 0.0, dx: 0.0, dy: 0.0 };
 
-        this.postprocessEnabled = [false, false, true, false, false];
+        // 右边五个选项的初始值
+        this.postprocessEnabled = [false, false, false, false, false];
     }
 
     start()
@@ -324,19 +325,15 @@ export class Game
         this.view.clear(0x808080);
         // 此步骤开始模型与贴图的放置与渲染
         this.view.renderView();
+        // 背景虚化等效果
         this.view.postProcess(this.postprocessEnabled);
-
-        if (true)
-        {
-            this.tmpGfx.putImageData(Util.convertBitmapToImageData(this.view), 0, 0);
-            this.gfx.save();
-            this.gfx.imageSmoothingEnabled = false;
-            this.gfx.scale(Constants.SCALE, Constants.SCALE);
-            this.gfx.drawImage(this.tmpCvs, 0, 0);
-            this.gfx.restore();
-        } else
-        {
-            this.gfx.putImageData(Util.convertBitmapToImageData(this.view, Constants.SCALE), 0, 0)
-        }
+        // 调用库函数 bitmap -> imagedata
+        this.tmpGfx.putImageData(Util.convertBitmapToImageData(this.view), 0, 0);
+        this.gfx.save();
+        this.gfx.imageSmoothingEnabled = false;
+        this.gfx.scale(Constants.SCALE, Constants.SCALE);
+        // 调用gfx才能draw（矩阵转化成图形呈现到canvas上面）
+        this.gfx.drawImage(this.tmpCvs, 0, 0);
+        this.gfx.restore();
     }
 }

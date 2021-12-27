@@ -25,7 +25,7 @@ let models =
     // "man": "https://raw.githubusercontent.com/Sopiro/js_bitmap_renderer/master/models/man.obj",
     "cube": "../image&obj repo/obj/cube.obj",
     "sphere": "../image&obj repo/obj/sphere.obj",
-    "sphere2": "../image&obj repo/obj/sphere2.obj",
+    "sphere2": "../image&obj repo/obj/sphere.obj",
     "monkey": "../image&obj repo/obj/monkey2.obj",
     // "man": "models/man.obj",
     "man": "../image&obj repo/obj/ninja.obj", // 直接输入模型地址就可以导入 默认为根目录路径
