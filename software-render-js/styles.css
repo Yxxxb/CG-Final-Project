@@ -1,5 +1,5 @@
 canvas {
-    border: 4px solid;
+    border: 2px solid;
     display: inline-block;
 }
 
@@ -15,16 +15,25 @@ canvas {
 }
 
 .head {
-    width: 800px;
+    width: 1800px;
     /* margin-bottom: -30px; */
+}
+
+.foot {
+    width: 500px;
+
 }
 
 .body {
     display: flex;
     width: 800px;
+	position: absolute;
+	left: 43%;
+	top: 50%;
+	transform: translate(-50%,-50%);
 }
 
-.resbox {
+.resbox {visibility:hidden;
     margin-left: 4px;
     display: flex;
     width: 800px;

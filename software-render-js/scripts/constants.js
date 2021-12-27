@@ -1,7 +1,7 @@
 import * as Resources from "./resources.js";
 
 export let Constants = {}
-Constants.WIDTH = 800;
+Constants.WIDTH = 1000;
 Constants.HEIGHT = Constants.WIDTH / 4 * 3;
 Constants.SCALE_INDEX = 1;
 // 侧边栏像素大小调整的就是这里
