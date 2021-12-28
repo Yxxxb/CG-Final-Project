@@ -61,7 +61,10 @@ export class View extends Bitmap
 
     update(delta)
     {
-        let matrix = new Matrix4().rotate(0, delta * 1.5, 0);
+        // 环绕光 delta乘的是环绕速度
+        let matrix = new Matrix4().rotate(0, delta * 0.8, 0);
+        // 固定光
+        // let matrix = new Matrix4()
 
         this.sunPosRelativeToZero = matrix.mulVector(this.sunPosRelativeToZero, 0).normalized();
         this.sunDir = this.sunPosRelativeToZero.mul(-1);
@@ -593,7 +596,7 @@ export class View extends Bitmap
                 // 这个if的意思是 只有当p这个点 在你想要渲染的三角形内部 才会进行画点（上课讲的 判断是否在内部） 重点讲***
                 if (w0 >= 0 && w1 >= 0 && w2 >= 0)
                 {
-                    // 这部分要干两件事 求color z的意义？
+                    // 这部分要干两件事 求color z的意义？在这里处理了光线
                     w0 /= area;
                     w1 /= area;
                     w2 /= area;
