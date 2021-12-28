@@ -148,13 +148,13 @@ export class Game
                     if (key == "skybox")
                     {
                         // 取边长 整数
-                        const size = Util.int(imageWidth / 4);
+                        const size = Util.int(imageWidth / 3);
 
                         // 分割天空盒图片
                         let top = this.tmpGfx.getImageData(size, 0, size, size);
-                        let bottom = this.tmpGfx.getImageData(size, size * 2, size, size);
+                        let bottom = this.tmpGfx.getImageData(0, 0, size, size);
                         let front = this.tmpGfx.getImageData(size, size, size, size);
-                        let back = this.tmpGfx.getImageData(size * 3, size, size, size);
+                        let back = this.tmpGfx.getImageData(size * 2, 0, size, size);
                         let right = this.tmpGfx.getImageData(size * 2, size, size, size);
                         let left = this.tmpGfx.getImageData(0, size, size, size);
 
@@ -166,6 +166,54 @@ export class Game
                         Resources.textures["skybox_right"] = Util.convertImageDataToBitmap(right, size, size);
                         Resources.textures["skybox_left"] = Util.convertImageDataToBitmap(left, size, size);
 
+                        Constants.loadedResources++;
+                        return;
+                    }
+                    if (key == "sp3_ft")
+                    {
+                        const size = Util.int(imageWidth);
+                        let pic = this.tmpGfx.getImageData(0, 0, size, size);
+                        Resources.textures["skybox_front"] = Util.convertImageDataToBitmap(pic, size, size);
+                        Constants.loadedResources++;
+                        return;
+                    }
+                    if (key == "sp3_bk")
+                    {
+                        const size = Util.int(imageWidth);
+                        let pic = this.tmpGfx.getImageData(0, 0, size, size);
+                        Resources.textures["skybox_back"] = Util.convertImageDataToBitmap(pic, size, size);
+                        Constants.loadedResources++;
+                        return;
+                    }
+                    if (key == "sp3_lf")
+                    {
+                        const size = Util.int(imageWidth);
+                        let pic = this.tmpGfx.getImageData(0, 0, size, size);
+                        Resources.textures["skybox_left"] = Util.convertImageDataToBitmap(pic, size, size);
+                        Constants.loadedResources++;
+                        return;
+                    }
+                    if (key == "sp3_rt")
+                    {
+                        const size = Util.int(imageWidth);
+                        let pic = this.tmpGfx.getImageData(0, 0, size, size);
+                        Resources.textures["skybox_right"] = Util.convertImageDataToBitmap(pic, size, size);
+                        Constants.loadedResources++;
+                        return;
+                    }
+                    if (key == "sp3_up")
+                    {
+                        const size = Util.int(imageWidth);
+                        let pic = this.tmpGfx.getImageData(0, 0, size, size);
+                        Resources.textures["skybox_top"] = Util.convertImageDataToBitmap(pic, size, size);
+                        Constants.loadedResources++;
+                        return;
+                    }
+                    if (key == "sp3_dn")
+                    {
+                        const size = Util.int(imageWidth);
+                        let pic = this.tmpGfx.getImageData(0, 0, size, size);
+                        Resources.textures["skybox_bottom"] = Util.convertImageDataToBitmap(pic, size, size);
                         Constants.loadedResources++;
                         return;
                     }
