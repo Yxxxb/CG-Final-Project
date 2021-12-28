@@ -139,7 +139,7 @@ export class View extends Bitmap
         // 放大缩小
         this.transform = this.transform.scale(0.1);
         // this.setTexture(Resources.textures.brickwall, Resources.textures.brickwall_normal);
-        this.setTexture(Resources.textures.white);
+        this.setTexture(Resources.textures.man);
         this.drawModel(Resources.models.man);
 
         this.transform = new Matrix4().translate(2, 2, -10);

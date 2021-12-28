@@ -21,6 +21,7 @@ let textures =
     "stone1_normal": ["https://raw.githubusercontent.com/Sopiro/js_bitmap_renderer/master/imgs/stone1_normal.png", [1024, 1024]],
     "stone2": ["https://raw.githubusercontent.com/Sopiro/js_bitmap_renderer/master/imgs/stone2_diffuse.jpg", [1024, 1024]],
     "stone2_normal": ["https://raw.githubusercontent.com/Sopiro/js_bitmap_renderer/master/imgs/stone2_normal.jpg", [1024, 1024]],
+    "man": ["../image&obj repo/texture/Ninja_T.png", [2048, 2048]],
 };
 
 let models =
