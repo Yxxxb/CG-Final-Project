@@ -88,17 +88,33 @@ export class View extends Bitmap
         const r = new Random(123);
         const s = 30.0;
         this.renderFlag = 0;
-        for (let i = 0; i < 1; i++)
+        for (let i = 0; i < 90; i++)
         {
-            if (i % 2 == 0) this.setTexture(Resources.textures.pepe, Resources.textures.brick_normal);
-            else this.setTexture(Resources.textures.dulri, Resources.textures.stone2_normal);
+            if (i % 3 == 0 || i % 3 == 1){
 
-            const pos = new Vector3(r.nextFloat() * s - s / 2.0, r.nextFloat() * s - s / 2.0, r.nextFloat() * s - s / 2.0);
-            const rot = new Vector3(this.time / 5 * (i % 3), this.time / 10.0 * (i % 5), this.time / 5 * (i % 7));
-            const scale = new Vector3(0.5);
-            this.transform = Util.createTransformMatrix(pos, rot, scale);
+                if (i % 3 == 0) this.setTexture(Resources.textures.dulri, Resources.textures.brickwall_normal);
+                else this.setTexture(Resources.textures.container);
 
-            this.drawModel(Resources.models.cube);
+                const pos = new Vector3(r.nextFloat() * s - s / 2.0, r.nextFloat() * s - s / 2.0, r.nextFloat() * s - s / 2.0);
+                const rot1 = new Vector3(this.time / 5 * (i % 3), this.time / 10.0 * (i % 5), this.time / 5 * (i % 7));
+                const rot2 = new Vector3(1, 1, 1);
+                const scale = new Vector3(1);
+                if (i % 3 == 0) this.transform = Util.createTransformMatrix(pos, rot2, scale);
+                else this.transform = Util.createTransformMatrix(pos, rot1, scale);
+
+                this.drawModel(Resources.models.cube);
+            }
+            else {
+                // 画球体
+                this.renderFlag = 0;
+                const pos = new Vector3(r.nextFloat() * s - s / 2.0, r.nextFloat() * s - s / 2.0, r.nextFloat() * s - s / 2.0);
+                const rot = new Vector3(1, 1, 1);
+                const scale = new Vector3(1);
+                this.transform = Util.createTransformMatrix(pos, rot, scale);
+                this.setTexture(Resources.textures.pepe, undefined, 100);
+                // 选取model
+                this.drawModel(Resources.models.sphere2);
+            }
         }
 
         // this.drawTriangle(new Vertex(new Vector3(0, 0, -1), 0xfffffff, new Vector2(0, 1)),
@@ -115,16 +131,6 @@ export class View extends Bitmap
 
         this.drawSkyBox(this.time / 100.0);
 
-        // 画球体
-        this.renderFlag = 0;
-        this.transform = new Matrix4().translate(2, 1, -5);
-        // 自转
-        // this.transform = new Matrix4().translate(2, 1, -5).rotate(this.time, 0, this.time);
-        // 选取贴图
-        this.setTexture(Resources.textures.pepe, undefined, 100);
-        // 选取model
-        this.drawModel(Resources.models.sphere2);
-
         this.transform = new Matrix4().translate(-2, 1, -5);
         // this.transform = this.transform.rotate(0, time, 0);
         this.transform = this.transform.scale(1);
@@ -133,11 +139,11 @@ export class View extends Bitmap
         this.drawModel(Resources.models.cube);
 
         // 设置model放置位置
-        this.transform = new Matrix4().translate(-2, 0, -10);
+        this.transform = new Matrix4().translate(-30, -10, -30);
         // 设置旋转
         this.transform = this.transform.rotate(0, this.time, 0);
         // 放大缩小
-        this.transform = this.transform.scale(0.1);
+        this.transform = this.transform.scale(1);
         // this.setTexture(Resources.textures.brickwall, Resources.textures.brickwall_normal);
         this.setTexture(Resources.textures.man);
         this.drawModel(Resources.models.man);

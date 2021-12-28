@@ -27,14 +27,18 @@ canvas {
 .body {
     display: flex;
     width: 800px;
-	position: absolute;
-	left: 43%;
-	top: 50%;
-	transform: translate(-50%,-50%);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.fps {
+    visibility: hidden;
 }
 
 .resbox {
-    /* visibility:hidden; */
+    visibility: hidden;
     margin-left: 4px;
     display: flex;
     width: 800px;

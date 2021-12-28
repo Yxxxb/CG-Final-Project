@@ -145,30 +145,30 @@ export class Game
                     this.tmpGfx.drawImage(image, 0, 0, imageWidth, imageHeight);
 
                     // 对天空盒进行处理
-                    if (key == "skybox")
-                    {
-                        // 取边长 整数
-                        const size = Util.int(imageWidth / 3);
+                    // if (key == "skybox")
+                    // {
+                    //     // 取边长 整数
+                    //     const size = Util.int(imageWidth / 3);
 
-                        // 分割天空盒图片
-                        let top = this.tmpGfx.getImageData(size, 0, size, size);
-                        let bottom = this.tmpGfx.getImageData(0, 0, size, size);
-                        let front = this.tmpGfx.getImageData(size, size, size, size);
-                        let back = this.tmpGfx.getImageData(size * 2, 0, size, size);
-                        let right = this.tmpGfx.getImageData(size * 2, size, size, size);
-                        let left = this.tmpGfx.getImageData(0, size, size, size);
+                    //     // 分割天空盒图片
+                    //     let top = this.tmpGfx.getImageData(size, 0, size, size);
+                    //     let bottom = this.tmpGfx.getImageData(0, 0, size, size);
+                    //     let front = this.tmpGfx.getImageData(size, size, size, size);
+                    //     let back = this.tmpGfx.getImageData(size * 2, 0, size, size);
+                    //     let right = this.tmpGfx.getImageData(size * 2, size, size, size);
+                    //     let left = this.tmpGfx.getImageData(0, size, size, size);
 
-                        // 图片转rgb 存储在resources里面
-                        Resources.textures["skybox_top"] = Util.convertImageDataToBitmap(top, size, size);
-                        Resources.textures["skybox_bottom"] = Util.convertImageDataToBitmap(bottom, size, size);
-                        Resources.textures["skybox_front"] = Util.convertImageDataToBitmap(front, size, size);
-                        Resources.textures["skybox_back"] = Util.convertImageDataToBitmap(back, size, size);
-                        Resources.textures["skybox_right"] = Util.convertImageDataToBitmap(right, size, size);
-                        Resources.textures["skybox_left"] = Util.convertImageDataToBitmap(left, size, size);
+                    //     // 图片转rgb 存储在resources里面
+                    //     Resources.textures["skybox_top"] = Util.convertImageDataToBitmap(top, size, size);
+                    //     Resources.textures["skybox_bottom"] = Util.convertImageDataToBitmap(bottom, size, size);
+                    //     Resources.textures["skybox_front"] = Util.convertImageDataToBitmap(front, size, size);
+                    //     Resources.textures["skybox_back"] = Util.convertImageDataToBitmap(back, size, size);
+                    //     Resources.textures["skybox_right"] = Util.convertImageDataToBitmap(right, size, size);
+                    //     Resources.textures["skybox_left"] = Util.convertImageDataToBitmap(left, size, size);
 
-                        Constants.loadedResources++;
-                        return;
-                    }
+                    //     Constants.loadedResources++;
+                    //     return;
+                    // }
                     if (key == "sp3_ft")
                     {
                         const size = Util.int(imageWidth);
