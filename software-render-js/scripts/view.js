@@ -293,7 +293,7 @@ export class View extends Bitmap
     {
         v = this.playerTransform(v);
 
-        v0 = this.projectionTransform(v0);
+        // v0 = this.projectionTransform(v0);
 
         if (v.pos.z < this.zClipNear) return;
 
@@ -472,11 +472,12 @@ export class View extends Bitmap
         }
 
         // 摄像机移动时候视角的变换
+        //点的坐标从世界坐标转换为用户坐标系下的坐标
         v0 = this.playerTransform(v0);
         v1 = this.playerTransform(v1);
         v2 = this.playerTransform(v2);
 
-        // z轴做负变换 ？
+        // z轴做负变换 ？ 投影变换
         v0 = this.projectionTransform(v0);
         v1 = this.projectionTransform(v1);
         v2 = this.projectionTransform(v2);
@@ -620,12 +621,14 @@ export class View extends Bitmap
 
                     // setTexture的时候会把texture里面的内容赋值给difuseMap
                     let color = this.sample(this.difuseMap, uv.x, uv.y);
-
+                    //光照
                     if (calcLight)
                     {
-                        const toLight = this.sunDirVS.mul(-1).normalized();
 
+                        const toLight = this.sunDirVS.mul(-1).normalized();
+                        // const toLight = this.sunDirVS.normalized();
                         let diffuse = toLight.dot(pixelNormal) * this.sunIntensity;
+                        //将diffuse限制在this.ambient和1中间
                         diffuse = Util.clamp(diffuse, this.ambient, 1.0);
 
                         if (this.specularIntensity != undefined)

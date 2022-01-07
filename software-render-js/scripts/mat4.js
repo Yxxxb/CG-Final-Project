@@ -93,10 +93,25 @@ export class Matrix4
         let res = new Matrix4();
 
         // 旋转变换矩阵
-        res.m00 = cosY * cosZ; res.m01 = -cosY * sinZ; res.m02 = sinY; res.m03 = 0;
-        res.m10 = sinX * sinY * cosZ + cosX * sinZ; res.m11 = -sinX * sinY * sinZ + cosX * cosZ; res.m12 = -sinX * cosY; res.m13 = 0;
-        res.m20 = -cosX * sinY * cosZ + sinX * sinZ; res.m21 = cosX * sinY * sinZ + sinX * cosZ; res.m22 = cosX * cosY; res.m23 = 0;
-        res.m30 = 0; res.m31 = 0; res.m32 = 0; res.m33 = 1;
+        res.m00 = cosY * cosZ;
+        res.m01 = -cosY * sinZ;
+        res.m02 = sinY;
+        res.m03 = 0;
+
+        res.m10 = sinX * sinY * cosZ + cosX * sinZ;
+        res.m11 = -sinX * sinY * sinZ + cosX * cosZ;
+        res.m12 = -sinX * cosY;
+        res.m13 = 0;
+
+        res.m20 = -cosX * sinY * cosZ + sinX * sinZ;
+        res.m21 = cosX * sinY * sinZ + sinX * cosZ;
+        res.m22 = cosX * cosY;
+        res.m23 = 0;
+
+        res.m30 = 0;
+        res.m31 = 0;
+        res.m32 = 0;
+        res.m33 = 1;
 
         return this.mulMatrix(res);
     }

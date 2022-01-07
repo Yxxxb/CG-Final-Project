@@ -72,7 +72,7 @@ export class Game
         // 右侧像素按钮调节函数
         function reloadView(index)
         {
-            console.log(index)
+            // console.log(index)
             if (index == Constants.SCALES[index]) return;
 
             const newWidth = Constants.WIDTH * Constants.SCALE / Constants.SCALES[index];
@@ -229,20 +229,23 @@ export class Game
         }
 
 
-        // 绑定鼠标键盘点击事件
+        // 绑定鼠标点击事件
         window.addEventListener("mousedown", (e) =>
         {
             if (e.button != 0) return;
 
             this.mouse.down = true;
+            // console.log(this.mouse.down)
         }, false);
         window.addEventListener("mouseup", (e) =>
         {
             if (e.button != 0) return;
 
             this.mouse.down = false;
-        }, false);
+            // console.log(this.mouse.down)
 
+        }, false);
+        //键盘某键按下后的绑定事件
         window.addEventListener("keydown", (e) =>
         {
             if (e.key == "Escape") this.pause = !this.pause;
@@ -257,7 +260,7 @@ export class Game
             if (e.key == "e") this.keys.e = true;
             if (e.key == "Shift") this.keys.shift = true;
         });
-
+        //键盘某键抬起后的绑定事件
         window.addEventListener("keyup", (e) =>
         {
             if (e.key == "w" || e.key == "ArrowUp") this.keys.up = false;
@@ -270,11 +273,13 @@ export class Game
             if (e.key == "e") this.keys.e = false;
             if (e.key == "Shift") this.keys.shift = false;
         });
-
+        //鼠标移动的绑定事件
         window.addEventListener("mousemove", (e) =>
         {
             this.mouse.currX = e.screenX;
             this.mouse.currY = e.screenY;
+            // console.log(this.mouse.currX,this.mouse.currY)
+
         });
 
         // fps指示
@@ -285,7 +290,9 @@ export class Game
 
         // 创建player和View对象
         // player内可修改水平移动速度、视角移动速度等等
+        //将用户与鼠标键盘绑定
         this.player = new Player(this.keys, this.mouse);
+        //将场景与用户绑定
         this.view = new View(Constants.WIDTH, Constants.HEIGHT, this.player);
 
         let sample = new Bitmap(64, 64);
@@ -316,13 +323,14 @@ export class Game
         const now = performance.now();
         // 清空times
         while (this.times.length > 0 && this.times[0] <= now - 1000) this.times.shift();
-
+        //获取当前时间到上次变换时间的时间差并换算单位为s
         const delta = (now - this.times[this.times.length - 1]) / 1000.0;
 
+        // console.log(now,this.times)
         this.times.push(now);
         this.fps = this.times.length;
         this.frameCounterElement.innerHTML = this.fps + "fps";
-
+        //当游戏未开始，但是资源准备就绪时
         if (!this.started && Constants.loadedResources == Constants.resourceReady)
         {
             this.started = true;
@@ -333,26 +341,30 @@ export class Game
             this.tmpCvs.setAttribute("height", Constants.HEIGHT * Constants.SCALE + "px");
             this.gfx.font = "48px verdana";
         }
+        //当游戏未开始，但是资源在准备中时
         if (!this.started)
         {
             this.gfx.clearRect(0, 0, this.cvs.width, this.cvs.height);
             // 加载模型的进度 上文每次load一个obj或texture都会loadedResources++
             this.gfx.fillText("Loading..." + Util.int(Constants.loadedResources / Constants.resourceReady * 100) + "%", 10, 60);
         }
-
+        //游戏开始未暂停
         if (this.started && !this.pause)
         {
             // update view & player
             this.update(delta);
             // view
             this.render();
-            this.time += delta;
+            this.time += delta
+            // console.log(this.time)
         }
+        //游戏暂停
         else if (this.pause)
         {
             this.gfx.fillText("PAUSE", 4, 40);
         }
 
+        //循环执行run函数
         // 必须加 每刷新界面的时候重新执行this
         requestAnimationFrame(this.run.bind(this));
     }
