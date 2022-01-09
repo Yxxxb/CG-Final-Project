@@ -91,9 +91,9 @@ export class View extends Bitmap
         const r = new Random(123);
         const s = 30.0;
         this.renderFlag = 0;
-        for (let i = 0; i < 60; i++)
+        for (let i = 0; i < 30; i++)
         {
-            if (i % 5 < 4){
+            if (i % 15 < 13){
 
                 if (i % 3 == 0) this.setTexture(Resources.textures.dulri, Resources.textures.brickwall_normal);
                 else this.setTexture(Resources.textures.container);

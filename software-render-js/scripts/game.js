@@ -346,7 +346,7 @@ export class Game
         {
             this.gfx.clearRect(0, 0, this.cvs.width, this.cvs.height);
             // 加载模型的进度 上文每次load一个obj或texture都会loadedResources++
-            this.gfx.fillText("Loading..." + Util.int(Constants.loadedResources / Constants.resourceReady * 100) + "%", 10, 60);
+            this.gfx.fillText("正在加载资源...", 10, 60);
         }
         //游戏开始未暂停
         if (this.started && !this.pause)
