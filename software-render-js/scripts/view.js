@@ -62,7 +62,7 @@ export class View extends Bitmap
     update(delta)
     {
         // 环绕光 delta乘的是环绕速度
-        let matrix = new Matrix4().rotate(0, delta * 0.8, 0);
+        let matrix = new Matrix4().rotate(0, delta * 0.5, 0);
         // 固定光
         // let matrix = new Matrix4()
 
