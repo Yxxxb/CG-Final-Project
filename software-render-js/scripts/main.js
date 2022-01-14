@@ -1,16 +1,16 @@
 'use strict'
 
-import { Model } from "./model.js";
-import * as Resources from "./resources.js";
-import { Constants } from "./constants.js";
-import { Game } from "./game.js";
+import { ConstantsList } from "./constants-list.js";
+import { StartGame } from "./start-game.js";
+import { ObjModel } from "./obj-model.js";
+import * as Resources from "./image-obj-resources.js";
 
 window.onload = () =>
 {
-    new Game().start();
+    new StartGame().start();
 }
 
-// Load models, parse OBJ
+// 加载导入obj模型
 for (const key in Resources.models)
 {
     if (Object.hasOwnProperty.call(Resources.models, key))
@@ -76,10 +76,10 @@ for (const key in Resources.models)
 
                 // console.log(indices);
 
-                Constants.loadedResources++;
+                ConstantsList.loadedResources++;
 
                 // 写进了Model后暂存到resource中 view中会利用drawModel进行模型绘制
-                Resources.models[key] = new Model(positions, texCoords, normals, indices);
+                Resources.models[key] = new ObjModel(positions, texCoords, normals, indices);
 
             }
         }

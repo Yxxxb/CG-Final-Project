@@ -7,15 +7,8 @@ canvas {
     display: inline;
 }
 
-#frame_counter {
-    font-size: 20px;
-    display: inline;
-    float: right;
-}
-
 .head {
     width: 1800px;
-    /* margin-bottom: -30px; */
 }
 
 .foot {
@@ -24,40 +17,14 @@ canvas {
 }
 
 .body {
-    display: flex;
-    width: 800px;
-    position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-}
-
-.fps {
-    visibility: hidden;
-}
-
-.resbox {
-    visibility: hidden;
-    margin-left: 4px;
     display: flex;
     width: 800px;
-    flex-direction: column;
+    position: absolute;
 }
 
-.opt {
-    flex: auto;
-    margin: 4px 1px;
-    border: 4px solid;
-    border-radius: 8px;
-    text-align: center;
-    vertical-align: middle;
-    width: 20px;
-}
-
-h3 {
-    margin-bottom: -1rem;
-}
-
-a {
-    color: cornflowerblue;
+.loading {
+    visibility: hidden;
 }
