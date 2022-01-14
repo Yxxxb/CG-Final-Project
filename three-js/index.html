@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+</head>
+<body>
+<script src="js/threeJS/three.js"></script>
+<script src="js/main.js"></script>
+<script src="js/lib/playerControl/MoveManager.js"></script>
+<script src="js/lib/playerControl/PlayerControl.js"></script>
+<script src="js/lib/playerControl/PreviewManager.js"></script>
+<script src="js/lib/MTLLoader.js"></script>
+<script src="js/lib/OBJLoader.js"></script>
+<!--<script src="js/modelpmload.js"></script>-->
+<script type="module">
+
+    var mymain = new Main();
+    mymain.start();
+    new PlayerControl(mymain.camera);
+    window.myClock = 0;
+    setInterval(function () {
+        window.myClock++;
+    }, 1);
+
+    const loader = new THREE.TextureLoader();
+
+    // 加载一张材质图片
+    var path = "src/cube/skybox3_";       //设置路径
+    var format = '.jpg';                        //设定格式
+    var urls = [
+        path + 'px' + format, path + 'nx' + format,
+        path + 'py' + format, path + 'ny' + format,
+        path + 'pz' + format, path + 'nz' + format
+    ];
+    var textureCube = new THREE.CubeTextureLoader().load( urls );
+
+    mymain.scene.background = textureCube; //作为背景贴图
+
+    var OBJLoader = new THREE.OBJLoader();//obj加载器
+    new THREE.MTLLoader().load('src/ninja/ninja.mtl', function(materials) {
+        materials.preload()
+        OBJLoader.setMaterials(materials)
+        OBJLoader.load("src/ninja/ninja.obj", function (loadedMesh) {
+            // var material = new THREE.MeshLambertMaterial({color: 0x5C3A21});
+
+            // 加载完obj文件是一个场景组，遍历它的子元素，赋值纹理并且更新面和点的发现了
+            loadedMesh.children.forEach(function (child) {
+                //给每个子元素赋值纹理
+                // child.material = material;
+                //更新每个子元素的面和顶点的法向量
+                child.geometry.computeFaceNormals();
+                child.geometry.computeVertexNormals();
+            });
+
+            //模型放大一百倍
+            loadedMesh.position.set(20, 0, 10)
+            // loadedMesh.scale.set(100, 100, 100);
+
+            //添加到场景当中
+            mymain.scene.add(loadedMesh);
+        })
+    })
+    let p=[[0,10,10],
+    [20,30,10],
+    [23,17,1],
+    [36,87,19],
+    [10,50,4],
+    [36,87,50],
+        [10,50,80]    ]
+
+    for(let i=0;i<5;i++){
+        let k=Math.floor(Math.random()*10);
+        loader.load(
+            'src/brickwall_normal.png', // 远程图片的地址
+            function (texture) {
+                const material = new THREE.MeshLambertMaterial({
+                    map: texture // 将材质的map属性设置为加载的图片
+                });
+                const geometry = new THREE.BoxGeometry(5,5,5);  // 一个正方体几何体，长宽高都为100
+                const cube = new THREE.Mesh(geometry, material);  // 创建这个mesh对象
+                cube.position.y=p[i][0]// 为这个新建的几何体设置一个位置，设置在场景内正方体的旁边
+                cube.position.x =p[i][1]
+                cube.position.z = p[i][2]
+
+
+                mymain.scene.add(cube); // 将新创建的带贴图的几何体添加到场景内，我们就可以看到了
+            },
+
+            // 加载出错时候的回调函数
+            function (err) {
+                console.error('An error happened.');
+            }
+        );
+
+    }
+    const geometry = new THREE.BoxGeometry( 5,5,5 );
+    const material = new THREE.MeshBasicMaterial( {color: 0x00ff00} );
+    const cube = new THREE.Mesh( geometry, material );
+    mymain.scene.add( cube );
+
+</script>
+</body>
+</html>
